@@ -26,7 +26,7 @@ login({ email: EMAIL, password: PASSWORD }, (err, api) => {
       if (data.botOn) {
         api.sendTypingIndicator(message.threadID);
         if (message.body) {
-          var options = {
+          var sentimentOptions = {
             uri: ANALYZE_URL + message.body.split(" ").join("%20"),
             headers: {
               "User-Agent": "Request-Promise"
@@ -34,13 +34,27 @@ login({ email: EMAIL, password: PASSWORD }, (err, api) => {
             json: true
           };
 
-          rp(options)
+          rp(sentimentOptions)
             .then(function(data) {
+              let sendOptions = {
+                uri: SEND_URL,
+                method: "POST",
+                body: {
+                  command: "react",
+                  text: "",
+                  id: message.messageID
+                },
+                json: true
+              };
               if (data.positive > 0.9) {
-                request(SEND_URL + "react~:love:~" + message.messageID);
+                sendOptions.body.text = ':love:';
               } else if (data.negative > 0.9) {
-                request(SEND_URL + "react~:sad:~" + message.messageID);
+                sendOptions.body.text = ':sad:';
               }
+              return rp(sendOptions);
+            })
+            .then(function (res) {
+              console.log("we good");
             })
             .catch(console.error);
         }
