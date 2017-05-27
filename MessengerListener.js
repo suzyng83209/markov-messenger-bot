@@ -1,12 +1,22 @@
 const login = require("facebook-chat-api");
 const request = require("request");
 const rp = require("request-promise");
+const express = require("express");
+const app = express();
 
-const SEND = "https://senderbot.herokuapp.com/";
+const EMAIL = "waterloogoosehonk@gmail.com";
+const PASSWORD = "HiIAmGoose101";
+const SEND_URL = "https://senderbot.herokuapp.com/";
+const ANALYZE_URL = "http://www.sentimentanalysisengine.com/";
 
-login(
-  { email: "waterloogoosehonk@gmail.com", password: "HiIAmGoose101" },
-  (err, api) => {
+app.set("port", process.env.PORT || 8888);
+
+app.get("/", (req, res) => {
+  res.send("MessengerListener V 1.0");
+});
+
+app.get("/autorespond", (req, res) => {
+  login({ email: EMAIL, password: PASSWORD }, (err, api) => {
     if (err) return console.error(err);
 
     api.listen((err, message) => {
@@ -19,10 +29,8 @@ login(
       api.sendTypingIndicator(message.threadID);
 
       if (message.body) {
-
         var options = {
-          uri: "http://www.sentimentanalysisengine.com/" +
-            message.body.split(" ").join("%20"),
+          uri: ANALYZE_URL + message.body.split(" ").join("%20"),
           headers: {
             "User-Agent": "Request-Promise"
           },
@@ -32,13 +40,21 @@ login(
         rp(options)
           .then(function(data) {
             if (data.positive > 0.9) {
-              request(SEND + "react~:love:~" + message.messageID);
+              request(SEND_URL + "react~:love:~" + message.messageID);
             } else if (data.negative > 0.9) {
-              request(SEND + "react~:sad:~" + message.messageID);
+              request(SEND_URL + "react~:sad:~" + message.messageID);
             }
           })
           .catch(console.error);
       }
     });
-  }
-);
+
+    if (req.query.off) {
+      api.logout();
+    }
+  });
+});
+
+app.listen(app.get("port"), function() {
+  console.log("React app is running on port ", app.get("port"));
+});
