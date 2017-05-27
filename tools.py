@@ -75,6 +75,7 @@ def generate_corpus(infile, outfile, length):
 
     pickle.dump(corpus, open("../DATA/corpus.p", "wb" ))
 
+
     return corpus
 
 
