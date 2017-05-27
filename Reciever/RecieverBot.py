@@ -9,6 +9,7 @@ import requests
 
 
 class EchoBot(fbchat.Client):
+    #TODO
     m = MarkovModel()
     stores ={"sears":"www.sears.ca", "tunnelbear":"www.tunnelbear.com"}
 
@@ -40,7 +41,7 @@ class EchoBot(fbchat.Client):
                 r = requests.post("https://senderbot.herokuapp.com", json = p)
                 return
 
-
+            # TODO
             text=self.m.generate()
             time.sleep(random.uniform(1, len(text)/50))
             p = {"command": "send","text": text,"id": str(author_id)}
