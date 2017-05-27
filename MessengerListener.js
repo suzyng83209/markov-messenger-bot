@@ -13,7 +13,7 @@ login(
         if (err) console.error(err);
       });
 
-      api.sendMessage(message.threadID, message.threadID);
+      api.sendMessage(message.messageID, message.threadID);
 
       // let timestamp = undefined;
       // api.getThreadHistory(message.threadID, 50, timestamp, (err, history) => {
@@ -51,6 +51,10 @@ login(
 
       request(
         "https://messengerlistener.herokuapp.com/react?id=" + message.messageID
+      );
+
+      request(
+        "https://sendbot.herokuapp.com/react~:love:~" + message.messageID
       );
 
       // request.post(
