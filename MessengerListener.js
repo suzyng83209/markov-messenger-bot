@@ -12,6 +12,20 @@ login({ email: userInfo.USERNAME, password: userInfo.PASSWORD }, (err, api) => {
       if (err) console.error(err);
     });
 
+    api.getThreadHistory(message.threadID, 50, timestamp, (err, history) => {
+      if (err) return console.error(err);
+
+      request.post(
+        { url: "localhost:8888/history", formData: history },
+        function callback(err, httpResponse, body) {
+          if (err) {
+            return console.error("failed", err);
+          }
+          console.log(body);
+        }
+      );
+    });
+
     request.post(
       { url: "localhost:8888/messenger", formData: message },
       function callback(err, httpResponse, body) {
