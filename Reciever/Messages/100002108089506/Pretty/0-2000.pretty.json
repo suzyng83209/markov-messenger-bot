@@ -1,0 +1,18 @@
+{
+    "__ar": 1,
+    "__sf": "iw",
+    "bootloadable": {},
+    "ixData": {},
+    "lid": "6424910174511073159",
+    "payload": {
+        "end_of_history": [
+            {
+                "fbid": "100002108089506",
+                "type": "user"
+            }
+        ],
+        "payload_source": "server_fetch_thread_info",
+        "roger": null,
+        "sequence_id": 2589923
+    }
+}

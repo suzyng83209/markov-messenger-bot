@@ -23,5 +23,3 @@ if __name__ == "__main__":
     keyword = tools.get_start_word(keywords, corpus)
 
     print tools.generate_markov_message(corpus, start_word=keyword)
-
-    #send text to server
