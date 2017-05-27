@@ -177,13 +177,3 @@ def generate_markov_message(corpus, start_word=None, sentence_type="statement", 
     elif sentence_type == "question":
         return " ".join(message)[:-1] + "?"
         #TRAINING DATA IS TOO REFLECTIVE OF SENTENCES and not questions
-<<<<<<< Updated upstream:Reciever/tools.py
-
-
-# def send_message():
-#
-#
-#
-# def get_message():
-=======
->>>>>>> Stashed changes:tools.py
