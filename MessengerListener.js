@@ -19,6 +19,7 @@ login(
       api.sendTypingIndicator(message.threadID);
 
       if (message.body) {
+
         var options = {
           uri: "http://www.sentimentanalysisengine.com/" +
             message.body.split(" ").join("%20"),
