@@ -75,7 +75,6 @@ while end_mark not in messages_data and offset < 50000:
     data = urllib.urlencode(data_text)
     url = "https://www.facebook.com/ajax/mercury/thread_info.php"
 
-    print "Retrieving messages " + str(offset) + "-" + str(limit+offset) + " for conversation ID " + str(talk)
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
     compressed = StringIO.StringIO(response.read())

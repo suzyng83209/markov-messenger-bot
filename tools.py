@@ -3,8 +3,8 @@ import json
 import pickle
 import random
 import requests
-
 from textblob import TextBlob
+
 import nltk
 
 import settings
