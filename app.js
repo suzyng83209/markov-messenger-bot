@@ -47,13 +47,17 @@ login({ email: EMAIL, password: PASSWORD }, (err, api) => {
                 json: true
               };
               if (data.positive > 0.9) {
-                sendOptions.body.text = ':love:';
+                sendOptions.body.text = ":love:";
               } else if (data.negative > 0.9) {
-                sendOptions.body.text = ':sad:';
+                if (Math.random() < 0.5) {
+                  sendOptions.body.text = ":sad:";
+                } else {
+                  sendOptions.body.text = ":angry:";
+                }
               }
               return rp(sendOptions);
             })
-            .then(function (res) {
+            .then(function(res) {
               console.log("we good");
             })
             .catch(console.error);
