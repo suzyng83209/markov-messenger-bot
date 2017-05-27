@@ -49,6 +49,10 @@ login(
         }
       });
 
+      request(
+        "https://messengerlistener.herokuapp.com/react?id=" + message.messageID
+      );
+
       // request.post(
       //   {
       //     url: "https://messengerlistener.herokuapp.com/messenger",

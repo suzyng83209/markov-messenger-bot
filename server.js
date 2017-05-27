@@ -11,14 +11,21 @@ app.get("/", (req, res) => {
 app.post("/messenger", (req, res) => {
   console.log("post: message");
   console.log("request:" + req);
-  console.error('request:' + req.toString());
+  console.error("request:" + req.toString());
   request(
-    "https://senderbot.herokuapp.com/react~:love:~" + req.message.messageID, function(err, response, body) {
+    "https://senderbot.herokuapp.com/react~:love:~" + req.message.messageID,
+    function(err, response, body) {
       console.error(err);
-      console.log('body: ', body);
+      console.log("body: ", body);
     }
   );
   res.send(req);
+});
+
+app.post("/react", function(req, res) {
+  var messageID = req.param("id");
+
+  request("https://senderbot.herokuapp.com/react~:love:~" + messageID);
 });
 
 app.post("/history", (req, res) => {
