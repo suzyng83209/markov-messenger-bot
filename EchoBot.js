@@ -1,7 +1,7 @@
 const login = require("facebook-chat-api");
-const userInfo = require("./User.js");
+const userInfo = require("./userInfo.js");
 
-login({ email: userInfo.username, password: userInfo.password }, (err, api) => {
+login({ email: userInfo.USERNAME, password: userInfo.PASSWORD }, (err, api) => {
   if (err) return console.error(err);
 
   let echoState = 'INITIAL';
