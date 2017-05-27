@@ -1,5 +1,6 @@
 SECRETS/*
 DATA/*
+FBMessageScraper/Messages/*
 
 !SECRETS/.keep
 !DATA/.keep
