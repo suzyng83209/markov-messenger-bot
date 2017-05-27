@@ -4,6 +4,7 @@ import urllib2
 import time
 import random
 import json
+import requests
 # subclass fbchat.Client and override required methods
 
 
@@ -28,29 +29,22 @@ class EchoBot(fbchat.Client):
             return
 
         if str(author_id) != str(self.uid):
-            # if message == '/shopping' or message.index("shopping")>=0:
-            #     urllib2.urlopen(domain + "www.sears.ca" + "~" + str(author_id))
-            #     return
-            # elif message ==
-
-            for k in self.stores.keys():
-                if k in message:
-                    urllib2.urlopen(domain + self.stores[k] + "~" + str(author_id))
-                    return
+            # for k in self.stores.keys():
+            #     if k in message:
+            #         urllib2.urlopen(domain + self.stores[k] + "~" + str(author_id))
+            #         return
             tokens = message.split()
 
             if "buy" in tokens and tokens.index("buy")+1<len(tokens):
-                s= domain + "www.sears.ca" + tokens[tokens.index("buy")+1] + "~" + str(author_id)
-                print s
-                urllib2.urlopen(s)
+                p = {"command": "send","text": "http://www.sears.ca/en/search?q="+tokens[tokens.index("buy")+1],"id": str(author_id)}
+                r = requests.post("https://senderbot.herokuapp.com", json = p)
                 return
 
 
             text=self.m.generate()
-            text='%20'.join(text.split())
             time.sleep(random.uniform(1, len(text)/50))
-            urllib2.urlopen(domain + text + "~" + str(author_id))
-            # urllib2.urlopen("https://senderbot.herokuapp.com/send~LOL~1135881167")
+            p = {"command": "send","text": text,"id": str(author_id)}
+            r = requests.post("https://senderbot.herokuapp.com", json = p)
 
 bot = EchoBot("waterloogoosehonk@gmail.com'", "HiIAmGoose101")
 bot.listen()
