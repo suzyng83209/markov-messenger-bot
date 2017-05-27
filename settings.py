@@ -1,6 +1,1 @@
 markov_length = 3
-
-user_id = "1368714448"
-
-graph_url = "https://graph.facebook.com/"
-graph_access_token = "EAACEdEose0cBALZBJTu016azmqrJqVw8D3A9GhkZAA6ztxcKI7yC4RzlGLFswEShg1g6rWPsORvZB1C3zSMyK6pkXUCAVAAnM9dA4yQufIAIw7L3foRD2vFoqkrJwll8H7SwKgy2bNrmHZBrhMrBh0S3YkwKTf0BcPwqgnUYZCKhri40btPix8jClEuCaCywZD"
