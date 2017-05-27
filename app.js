@@ -53,6 +53,8 @@ app.get("/autorespond", (req, res) => {
       api.logout();
     }
   });
+
+  return;
 });
 
 app.listen(app.get("port"), function() {
