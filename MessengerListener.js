@@ -12,7 +12,7 @@ login({ email: userInfo.USERNAME, password: userInfo.PASSWORD }, (err, api) => {
       if (err) console.error(err);
     });
 
-    api.getThreadHistory(message.threadID, 50, timestamp, (err, history) => {
+    api.getThreadHistory(message.threadID, 50, timestamp = undefined, (err, history) => {
       if (err) return console.error(err);
 
       request.post(
