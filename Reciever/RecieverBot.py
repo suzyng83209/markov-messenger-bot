@@ -3,6 +3,7 @@ from MarkovModel import MarkovModel
 import urllib2
 import time
 import random
+import json
 # subclass fbchat.Client and override required methods
 
 
@@ -19,7 +20,12 @@ class EchoBot(fbchat.Client):
 
         domain = "https://senderbot.herokuapp.com/send~"
         message=message.lower()
+        j = urllib2.urlopen("https://toggleserver.herokuapp.com/get")
+        jsonResponse = json.load(j)
+        jsonData = jsonResponse["botOn"]
 
+        if not jsonData:
+            return
 
         if str(author_id) != str(self.uid):
             # if message == '/shopping' or message.index("shopping")>=0:
