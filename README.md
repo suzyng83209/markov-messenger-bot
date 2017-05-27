@@ -20,3 +20,6 @@ Eating 8 of those coffee gummy cubes is a bad idea, regardless of how tired you 
 
 ## What's next for Goose Boy
 Goose Boy will better use keywords to understand conversation context and will use better algorithms to create sentences faster. 
+
+## Built With
+We used: python, JavaScript, nltk, markov chains, machine learning, heroku, react native, and the Facebook API
