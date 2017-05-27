@@ -1,8 +1,11 @@
 SECRETS/*
 DATA/*
-
-!SECRETS/.keep
-!DATA/.keep
+Messages/*
 config.py
 *.pyc
 node_modules/
+
+
+
+!SECRETS/.keep
+!DATA/.keep
