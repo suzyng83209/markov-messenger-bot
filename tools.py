@@ -1,3 +1,5 @@
+import ast
+import json
 import pickle
 import random
 import requests
@@ -8,18 +10,29 @@ import nltk
 import settings
 import words
 
-def get_conversation_history(user_id):
-    """Scrapes entire coversation history with another user
-    using Facebook Messenger API
+def get_conversation_history(data, outfile):
+    """Scrapes json file and returns text file with only conversation history text
 
     Args:
-        user_id: Facebook user_id
+        data: .json file with pretty json
+        outfile: .txt file with beautified text
     """
+    with open(data) as data_file:
+        data = json.load(data_file)
+
+    with open(outfile, 'wb') as f:
+        for message in data:
+            try:
+                message = message['body'].encode("utf8")
+            except:
+                message = message['log_message_body'].encode("utf8")
+            f.write("{} ".format(message))
+    return
 
 
 def clean_input_text(infile, outfile):
     """Takes in conversation history with another user and removes
-    extraneous characters
+    extraneous characters and typos.
 
     Args:
         infile: file with conversation history
@@ -27,6 +40,8 @@ def clean_input_text(infile, outfile):
     """
 
     clean_infile = open(infile).read().replace('\n', ' ').replace("\"", "").lower()
+
+    #implement auto-correct
 
     with open(outfile, 'wb') as f_out:
         f_out.write(clean_infile)
@@ -135,12 +150,18 @@ def generate_markov_message(corpus, start_word=None, sentence_type="statement", 
     sword1 = random.choice(words.start_words[sentence_type])
 
     #Generate start words for markov chain
-    while True:
+    attempts = 0
+    while attempts < 5:
+        attempts += 1
         try:
             sword2 = random.choice([key[1] for key in corpus.keys() if sword1 == key[0]])
             break
         except IndexError as e:
             continue
+
+
+    if attempts == 5:
+        sword1, sword2 = random.choice(corpus.keys())
 
     message = [sword1.capitalize(), sword2]
 
@@ -154,7 +175,7 @@ def generate_markov_message(corpus, start_word=None, sentence_type="statement", 
         message.append(sword2)
 
     if sentence_type == "statement":
-        return " ".join(message)[:-1] + "."
+        return " ".join(message) + "."
     elif sentence_type == "question":
         return " ".join(message)[:-1] + "?"
         #TRAINING DATA IS TOO REFLECTIVE OF SENTENCES and not questions
