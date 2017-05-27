@@ -1,5 +1,8 @@
 const login = require("facebook-chat-api");
 const request = require("request");
+const rp = require("request-promise");
+
+const SEND = "https://senderbot.herokuapp.com/";
 
 login(
   { email: "waterloogoosehonk@gmail.com", password: "HiIAmGoose101" },
@@ -13,62 +16,28 @@ login(
         if (err) console.error(err);
       });
 
-      api.sendMessage(message.messageID, message.threadID);
+      api.sendTypingIndicator(message.threadID);
 
-      // let timestamp = undefined;
-      // api.getThreadHistory(message.threadID, 50, timestamp, (err, history) => {
-      //   if (err) return console.error(err);
-      //   if (timestamp != undefined) history.pop();
-      //   timestamp = history[0].timestamp;
-      //   request.post(
-      //     { url: "https://messengerlistener.herokuapp.com/history", formData: history },
-      //     function callback(err, httpsResponse, body) {
-      //       if (err) {
-      //         return console.error("failed: ", err);
-      //       }
-      //       console.log(body);
-      //     }
-      //   );
-      // });
+      if (message.body) {
+        var options = {
+          uri: "http://www.sentimentanalysisengine.com/" +
+            message.body.split(" ").join("%20"),
+          headers: {
+            "User-Agent": "Request-Promise"
+          },
+          json: true
+        };
 
-      const headers = {
-        "User-Agent": "Super Agent/0.0.1",
-        "Content-Type": "application/x-www-form-urlencoded"
-      };
-
-      var options = {
-        url: "https://messengerlistener.herokuapp.com/messenger",
-        method: "POST",
-        headers: headers,
-        form: { message: message }
-      };
-
-      request(options, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-          console.log(body);
-        }
-      });
-
-      request(
-        "https://messengerlistener.herokuapp.com/react?id=" + message.messageID
-      );
-
-      request(
-        "https://sendbot.herokuapp.com/react~:love:~" + message.messageID
-      );
-
-      // request.post(
-      //   {
-      //     url: "https://messengerlistener.herokuapp.com/messenger",
-      //     formData: message
-      //   },
-      //   function callback(err, httpResponse, body) {
-      //     if (err) {
-      //       return console.error("failed", err);
-      //     }
-      //     console.log(body);
-      //   }
-      // );
+        rp(options)
+          .then(function(data) {
+            if (data.positive > 0.5) {
+              request(SEND + "react~:love:~" + message.messageID);
+            } else {
+              request(SEND + "react~:sad:~" + message.messageID);
+            }
+          })
+          .catch(console.error);
+      }
     });
   }
 );
