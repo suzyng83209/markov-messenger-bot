@@ -1,3 +1,5 @@
-Config.py
+config.py
 *.pyc
+Sender/*.pyc
 node_modules/
+UserInfo.js
