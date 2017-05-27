@@ -41,8 +41,6 @@ def clean_input_text(infile, outfile):
 
     clean_infile = open(infile).read().replace('\n', ' ').replace("\"", "").lower()
 
-    #implement auto-correct
-
     with open(outfile, 'wb') as f_out:
         f_out.write(clean_infile)
 
@@ -179,3 +177,10 @@ def generate_markov_message(corpus, start_word=None, sentence_type="statement", 
     elif sentence_type == "question":
         return " ".join(message)[:-1] + "?"
         #TRAINING DATA IS TOO REFLECTIVE OF SENTENCES and not questions
+
+
+def send_message():
+
+
+
+def get_message():
