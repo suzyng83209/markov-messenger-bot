@@ -73,7 +73,8 @@ def generate_corpus(infile, outfile, length):
                 else:
                     corpus[key] = [word3]
 
-    pickle.dump(corpus, open("DATA/corpus.p", "wb" ))
+    pickle.dump(corpus, open("../DATA/corpus.p", "wb" ))
+
 
     return corpus
 

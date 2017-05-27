@@ -43,7 +43,8 @@ class EchoBot(fbchat.Client):
 
             # TODO
             text=self.m.generate()
-            time.sleep(random.uniform(1, len(text)/50))
+            # print "markov chain: ", text
+            # time.sleep(random.uniform(1, len(text)/50))
             p = {"command": "send","text": text,"id": str(author_id)}
             r = requests.post("https://senderbot.herokuapp.com", json = p)
 
