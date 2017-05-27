@@ -1,0 +1,3 @@
+[submodule "SenderServer"]
+	path = SenderServer
+	url = https://github.com/Jspsun/SenderServer
