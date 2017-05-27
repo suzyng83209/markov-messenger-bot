@@ -1,3 +1,7 @@
 [submodule "SenderServer"]
 	path = SenderServer
 	url = https://github.com/Jspsun/SenderServer
+
+[submodule "ToggleServer"]
+	path = ToggleServer
+	url = https://github.com/Jspsun/ToggleServer

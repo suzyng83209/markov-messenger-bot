@@ -1,6 +1,7 @@
 {
-  "name": "MessengerListener",
-  "version": "1.0.1",
+  "name": "enghack2017",
+  "version": "1.0.0",
+
   "description": "waste",
   "main": "background.js",
   "dependencies": {
