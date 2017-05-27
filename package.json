@@ -1,0 +1,25 @@
+{
+  "name": "enghack2017",
+  "version": "1.0.0",
+  "description": "waste",
+  "main": "background.js",
+  "dependencies": {
+    "express": "^4.15.3",
+    "facebook-chat-api": "^1.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silastsui/enghack2017.git"
+  },
+  "author": "chuqian Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silastsui/enghack2017/issues"
+  },
+  "homepage": "https://github.com/silastsui/enghack2017#readme"
+}
