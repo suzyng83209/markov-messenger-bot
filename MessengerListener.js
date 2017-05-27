@@ -30,9 +30,9 @@ login(
 
         rp(options)
           .then(function(data) {
-            if (data.positive > 0.5) {
+            if (data.positive > 0.9) {
               request(SEND + "react~:love:~" + message.messageID);
-            } else {
+            } else if (data.negative > 0.9) {
               request(SEND + "react~:sad:~" + message.messageID);
             }
           })
