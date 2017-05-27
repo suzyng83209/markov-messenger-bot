@@ -1,3 +1,8 @@
-Config.py
+SECRETS/*
+DATA/*
+
+!SECRETS/.keep
+!DATA/.keep
+config.py
 *.pyc
 node_modules/
