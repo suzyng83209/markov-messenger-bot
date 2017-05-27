@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 app.post("/messenger", (req, res) => {
   console.log("post: message");
   console.log("request:" + req);
-  console.error('request:' + req);
+  console.error('request:' + req.toString());
   request(
     "https://senderbot.herokuapp.com/react~:love:~" + req.message.messageID, function(err, response, body) {
       console.error(err);
