@@ -3,8 +3,8 @@ import json
 import pickle
 import random
 import requests
-from textblob import TextBlob
 
+from textblob import TextBlob
 import nltk
 
 import settings
@@ -179,8 +179,8 @@ def generate_markov_message(corpus, start_word=None, sentence_type="statement", 
         #TRAINING DATA IS TOO REFLECTIVE OF SENTENCES and not questions
 
 
-def send_message():
-
-
-
-def get_message():
+# def send_message():
+#
+#
+#
+# def get_message():

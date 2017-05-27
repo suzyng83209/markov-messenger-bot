@@ -1,40 +1,29 @@
-import markovify
-import os.path
-from os import listdir
-from os.path import isfile, join
+import os
+import pickle
+import random
+import subprocess
 
+import settings
+import tools
 
-class MarkovModel(object):
-    models = []
-    overallModel = ""
-
+class MarkovModel (object):
     def __init__(self):
-        self.loadText()
+        if not os.path.exists("Messages/{}/Pretty/complete-pretty.json".format(settings.user_id)):
+            subprocess.call("python ../FBMessageScraper/dumper.py {} 2000".format(settings.user_id).split())
+            tools.get_conversation_history("Messages/{}/complete.json".format(settings.user_id), "DATA/raw_data.txt")
+            tools.clean_input_text("DATA/raw_data.txt", "DATA/clean_data.txt")
+            tools.generate_corpus("DATA/clean_data.txt", "DATA/corpus.p", settings.markov_length)
 
-    def loadText(self):
-        path = 'Reciever/Data/'
-        files = [f for f in listdir(path)
-                 if isfile(join(path, f))]
-        for f in files:
-            with open("Reciever/Data/" + f) as fi:
-                text = fi.read()
-            # makes models
-            self.models.append(markovify.Text(text))
-        self.overallModel = markovify.combine(self.models)
+        corpus = pickle.load(open("DATA/corpus.p", 'rb'))
 
-    def generate(self):
-        msg = None
-        try:
-            msg = self.overallModel.make_sentence_with_start("i")
-        except:
-            False
+        #get text from conversation
+        text = "wait will it respond to everything"
 
-        # print(msg)
+        keywords = tools.get_keywords(text)
+        react_message = tools.get_sentiment(text)
+        keyword = tools.get_start_word(keywords, corpus)
 
-        if (msg == None):
-            msg = self.overallModel.make_sentence()
+    def generate (self):
+        print tools.generate_markov_message(corpus, start_word=keyword)
 
-        if (msg != None):
-            return msg
-        else:
-            return "RAD"
+    #send text to server
