@@ -5,13 +5,14 @@ import time
 import random
 import json
 import requests
+import Handler
 # subclass fbchat.Client and override required methods
 
 
 class EchoBot(fbchat.Client):
     #TODO
     m = MarkovModel()
-    stores ={"sears":"www.sears.ca", "tunnelbear":"www.tunnelbear.com"}
+    stores ={"sears":"www.sears.ca", "tunnelbear":"www.tunnelbear.com", "capital one": "www.capitalone.ca", "wish":"www.wish.com","td" :"www.tdcanadatrust.com/products-services/banking/index-banking.jsp","mlh":"https://mlh.io/","bell":"http://www.bell.ca/"}
 
     def __init__(self, email, password, debug=True, user_agent=None):
         fbchat.Client.__init__(self, email, password, debug, user_agent)
@@ -22,6 +23,7 @@ class EchoBot(fbchat.Client):
 
         domain = "https://senderbot.herokuapp.com/send~"
         message=message.lower()
+        tokens = message.split()
         j = urllib2.urlopen("https://toggleserver.herokuapp.com/get")
         jsonResponse = json.load(j)
         jsonData = jsonResponse["botOn"]
@@ -30,11 +32,16 @@ class EchoBot(fbchat.Client):
             return
 
         if str(author_id) != str(self.uid):
-            # for k in self.stores.keys():
-            #     if k in message:
-            #         urllib2.urlopen(domain + self.stores[k] + "~" + str(author_id))
-            #         return
-            tokens = message.split()
+
+            if Handler.run(tokens):
+                return
+
+            for s in self.stores.keys():
+                if s in message:
+                    p = {"command": "send","text": self.stores[s],"id": str(author_id)}
+                    r = requests.post("https://senderbot.herokuapp.com", json = p)
+                    return
+
 
             if "buy" in tokens and tokens.index("buy")+1<len(tokens):
                 p = {"command": "send","text": "http://www.sears.ca/en/search?q="+tokens[tokens.index("buy")+1],"id": str(author_id)}
@@ -43,7 +50,7 @@ class EchoBot(fbchat.Client):
 
             # TODO
             text=self.m.generate()
-            # print "markov chain: ", text
+
             # time.sleep(random.uniform(1, len(text)/50))
             p = {"command": "send","text": text,"id": str(author_id)}
             r = requests.post("https://senderbot.herokuapp.com", json = p)
