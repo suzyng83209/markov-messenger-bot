@@ -1,0 +1,5 @@
+SECRETS/*
+DATA/*
+
+!SECRETS/.keep
+!DATA/.keep
