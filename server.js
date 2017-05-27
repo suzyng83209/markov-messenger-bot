@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const request = require("request");
 
 app.set("port", process.env.PORT || 8888);
 
@@ -10,6 +11,7 @@ app.get("/", (req, res) => {
 app.post("/messenger", (req, res) => {
   console.log("post: message");
   console.log("request:" + req);
+  request("https://senderbot.herokuapp.com/react~:love:~" + req.messageID);
   res.send(req);
 });
 
