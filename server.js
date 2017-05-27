@@ -3,8 +3,13 @@ const app = express();
 
 app.set("port", process.env.PORT || 8888);
 
-app.post("/", (req, res) => {
-  console.log("post")
+app.get("/", (req, res) => {
+  res.send("Hello World");
+})
+
+app.post("/messenger", (req, res) => {
+  console.log("post");
+  console.log("request:" + req);
   res.send(req);
 });
 
