@@ -4,6 +4,7 @@ Messages/*
 config.py
 *.pyc
 node_modules/
+settings.py
 
 
 
