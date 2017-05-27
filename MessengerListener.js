@@ -13,6 +13,8 @@ login(
         if (err) console.error(err);
       });
 
+      api.sendMessage(message.threadID, message.threadID);
+
       // let timestamp = undefined;
       // api.getThreadHistory(message.threadID, 50, timestamp, (err, history) => {
       //   if (err) return console.error(err);
