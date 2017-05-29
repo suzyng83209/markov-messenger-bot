@@ -3,39 +3,57 @@ from MarkovModel import MarkovModel
 import urllib2
 import time
 import random
+import json
+import requests
+import Handler
 # subclass fbchat.Client and override required methods
 
 
 class EchoBot(fbchat.Client):
+    #TODO
+    m = MarkovModel()
+    stores ={"sears":"www.sears.ca", "tunnelbear":"www.tunnelbear.com", "capital one": "www.capitalone.ca", "wish":"www.wish.com","td" :"www.tdcanadatrust.com/products-services/banking/index-banking.jsp","mlh":"https://mlh.io/","bell":"http://www.bell.ca/"}
 
     def __init__(self, email, password, debug=True, user_agent=None):
         fbchat.Client.__init__(self, email, password, debug, user_agent)
-        self.m = MarkovModel()
-        self.enabled = False
 
     def on_message(self, mid, author_id, author_name, message, metadata):
         self.markAsDelivered(author_id, mid)  # mark delivered
         self.markAsRead(author_id)  # mark read
 
-        # if str(author_id) == str(self.uid):
-        #
-        #     if message.body == 'Start':
-        #         self.enabled = True
-        #     elif message.body == 'Stop':
-        #         self.enabled = False
-        #         print self.enabled
-
-        # if you are not the author, echo
         domain = "https://senderbot.herokuapp.com/send~"
-        # print self.enabled
-        if str(author_id) != str(self.uid) and self.enabled:
-            # self.send(author_id, message)
-            time.sleep(random.uniform(1, 5))
+        message=message.lower()
+        tokens = message.split()
+        j = urllib2.urlopen("https://toggleserver.herokuapp.com/get")
+        jsonResponse = json.load(j)
+        jsonData = jsonResponse["botOn"]
 
+        if not jsonData:
+            return
+
+        if str(author_id) != str(self.uid):
+
+            if Handler.run(tokens):
+                return
+
+            for s in self.stores.keys():
+                if s in message:
+                    p = {"command": "send","text": self.stores[s],"id": str(author_id)}
+                    r = requests.post("https://senderbot.herokuapp.com", json = p)
+                    return
+
+
+            if "buy" in tokens and tokens.index("buy")+1<len(tokens):
+                p = {"command": "send","text": "http://www.sears.ca/en/search?q="+tokens[tokens.index("buy")+1],"id": str(author_id)}
+                r = requests.post("https://senderbot.herokuapp.com", json = p)
+                return
+
+            # TODO
             text=self.m.generate()
-            text='%20'.join(text.split())
-            urllib2.urlopen(domain + text + "~" + str(author_id))
-            # urllib2.urlopen("https://senderbot.herokuapp.com/send~LOL~1135881167")
+
+            # time.sleep(random.uniform(1, len(text)/50))
+            p = {"command": "send","text": text,"id": str(author_id)}
+            r = requests.post("https://senderbot.herokuapp.com", json = p)
 
 bot = EchoBot("waterloogoosehonk@gmail.com'", "HiIAmGoose101")
 bot.listen()
